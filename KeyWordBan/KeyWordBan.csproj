@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\QQbotOrWebAPI\NapCatScript.Core\NapCatScript.Core.csproj" />
     <ProjectReference Include="..\NapCatScript.Core\NapCatScript.Core.csproj" />
   </ItemGroup>
 
