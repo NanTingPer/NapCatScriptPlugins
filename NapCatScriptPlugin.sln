@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPlugin", "TestPlugin\Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NapCatScript.Start", "..\QQbotOrWebAPI\Start\NapCatScript.Start.csproj", "{B6BCDF41-6926-F6EA-59CC-6C5C1849D0CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscordToQQ", "DiscordToQQ\DiscordToQQ.csproj", "{5D6251ED-3FB3-45C5-9957-72CBDA855E2C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{B6BCDF41-6926-F6EA-59CC-6C5C1849D0CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6BCDF41-6926-F6EA-59CC-6C5C1849D0CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6BCDF41-6926-F6EA-59CC-6C5C1849D0CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D6251ED-3FB3-45C5-9957-72CBDA855E2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D6251ED-3FB3-45C5-9957-72CBDA855E2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D6251ED-3FB3-45C5-9957-72CBDA855E2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D6251ED-3FB3-45C5-9957-72CBDA855E2C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

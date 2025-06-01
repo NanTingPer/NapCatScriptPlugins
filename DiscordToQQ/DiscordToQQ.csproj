@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\QQbotOrWebAPI\NapCatScript.Core\NapCatScript.Core.csproj" />
+  </ItemGroup>
+
 </Project>
