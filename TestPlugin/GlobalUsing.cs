@@ -7,7 +7,6 @@ global using NapCatScript.Start;
 global using NapCatScript.Core.MsgHandle;
 
 global using static NapCatScript.Core.Services.Config;
-global using static NapCatScript.Core.Services.Loging;
 global using static NapCatScript.Core.Services.MessagesService;
 global using static NapCatScript.Core.Services.SQLiteService;
 global using static TestPlugin.ContentList;

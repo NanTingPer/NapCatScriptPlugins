@@ -27,7 +27,7 @@ public class DeepSeekAPI
         
 
         string[] temp = content.Split("$");
-        Log.Info("消息进入DeepSeekAPI: " + content);
+        Log.InstanceLog.Info("消息进入DeepSeekAPI: " + content);
         GoTo @goto = await Command(mesg, temp, httpURI, tk);
         if (Regex.Replace(content, @"\s", "").StartsWith(TestClass.StartString + "总结群消息")) {
             @goto = GoTo.Con;
@@ -43,7 +43,7 @@ public class DeepSeekAPI
                 content = await GetUpDownContent<DeepSeekGroupModel>(mesg);
                 prompt2 = "现在你是消息总结专家，总结时最好说明谁拉起的话题，最后一条消息是总结要求<[CQ:XXX]总结群消息,YYYYY>其中YYYYY是总结要求。无要求就简略总结。最大文本量不超1000";
                 content += $"#####{content}";
-                Log.Info("DeepSeekAPI: 总结");
+                Log.InstanceLog.Info("DeepSeekAPI: 总结");
                 break;
             default:
                 content = await GetUpDownContent<DeepSeekModel>(mesg);
@@ -88,7 +88,7 @@ public class DeepSeekAPI
         try {
             jsonContent = JsonSerializer.Serialize(rjson);
         } catch (Exception e) {
-            Log.Erro("序列化出错", e.Message, e.StackTrace);
+            Log.InstanceLog.Erro("序列化出错", e.Message, e.StackTrace);
             SendAsync(mesg, httpURI, "呃唔，请求失败了，好像是序列化的问题。不用担心啦，没挂哦~", tk);
             return;
         }
@@ -143,7 +143,7 @@ public class DeepSeekAPI
         try {
             JsonDocument.TryParseValue(ref utf8JsonReader, out document);
         }catch (Exception e) {
-            Log.Erro(e.Message, e.StackTrace);
+            Log.InstanceLog.Erro(e.Message, e.StackTrace);
             return;
         }
         if (document is null)
@@ -167,13 +167,13 @@ public class DeepSeekAPI
                             await UpDownContent(recContent.GetString(), mesg);
                             AddGroupMesg(mesg, recContent.GetString()); //加入组
                         } catch (Exception e){
-                            Log.Erro(e.Message, e.StackTrace);
+                            Log.InstanceLog.Erro(e.Message, e.StackTrace);
                         }
                     }
                 }
             } catch (Exception e) {
                 Console.WriteLine($"DeepSeekErro: {e.Message} \r\n {e.StackTrace}");
-                Log.Erro(e.Message, e.StackTrace);
+                Log.InstanceLog.Erro(e.Message, e.StackTrace);
             }
         }
         活跃数--;
@@ -194,7 +194,7 @@ public class DeepSeekAPI
             }
         } catch (Exception e) {
             Console.WriteLine($"更新提示词出错 Erro: {e.Message}");
-            Log.Waring(e.Message, e.StackTrace);
+            Log.InstanceLog.Waring(e.Message, e.StackTrace);
         }
     }
 
@@ -213,7 +213,7 @@ public class DeepSeekAPI
             }
         } catch (Exception e) {
             Console.WriteLine($"更新标准 Erro: {e.Message}");
-            Log.Waring(e.Message, e.StackTrace);
+            Log.InstanceLog.Waring(e.Message, e.StackTrace);
         }
     }
 
@@ -248,7 +248,7 @@ public class DeepSeekAPI
             }
         } catch(Exception e) {
             Console.WriteLine($"提示词初始化出错: ${e.Message}");
-            Log.Erro(e.Message, e.StackTrace);
+            Log.InstanceLog.Erro(e.Message, e.StackTrace);
         }
     }
 
@@ -286,7 +286,7 @@ public class DeepSeekAPI
                 }
             }
         } catch (Exception e) {
-            Log.Erro("DeepSeekAPI处理错误: " + e.Message, e.StackTrace);
+            Log.InstanceLog.Erro("DeepSeekAPI处理错误: " + e.Message, e.StackTrace);
             return GoTo.None;
         }
         return GoTo.GoOn;
@@ -322,7 +322,7 @@ public class DeepSeekAPI
 
         } catch (Exception e) {
             Console.WriteLine($"更新上下文错误: {e.Message}" + "\r\n" + e.StackTrace);
-            Log.Erro("更新上下文错误:",e.Message, e.StackTrace);
+            Log.InstanceLog.Erro("更新上下文错误:",e.Message, e.StackTrace);
         }
     }
 
@@ -336,7 +336,7 @@ public class DeepSeekAPI
             upDowns = await SQLService.GetAll<T>();
         } catch (Exception e) {
             Console.WriteLine("获取上下文失败: " + e.Message);
-            Log.Erro("获取上下文失败: ", e.Message, e.StackTrace);
+            Log.InstanceLog.Erro("获取上下文失败: ", e.Message, e.StackTrace);
             return "";
         }
 
@@ -367,7 +367,7 @@ public class DeepSeekAPI
             //await Service.DeleteALL<DeepSeekModel>();
         } catch(Exception e) {
             Console.WriteLine("删除上下文失败");
-            Log.Erro("删除上下文失败", e.Message, e.StackTrace);
+            Log.InstanceLog.Erro("删除上下文失败", e.Message, e.StackTrace);
         }
     }
 
@@ -383,7 +383,7 @@ public class DeepSeekAPI
             else dsgm = new DeepSeekGroupModel() { Content = RegSpack(mesg.MessageContent), GroupId = mesg.GroupId, MesgType = mesg.MessageType, UserId = mesg.UserId, UserName = mesg.UserName };
         } catch (Exception e) {
             Console.WriteLine("创建组消息失败: "  + e.Message + "\r\n" + e.StackTrace);
-            Log.Erro("创建组消息失败: ", e.Message, e.StackTrace);
+            Log.InstanceLog.Erro("创建组消息失败: ", e.Message, e.StackTrace);
             return;
         }
 
@@ -403,7 +403,7 @@ public class DeepSeekAPI
             await SQLService.Insert<DeepSeekGroupModel>(dsgm);
         } catch (Exception e) {
             Console.WriteLine("添加组消息失败: " + e.Message + "\r\n" + e.StackTrace);
-            Log.Erro("添加组消息失败: ", e.Message, e.StackTrace);
+            Log.InstanceLog.Erro("添加组消息失败: ", e.Message, e.StackTrace);
         }
     }
 

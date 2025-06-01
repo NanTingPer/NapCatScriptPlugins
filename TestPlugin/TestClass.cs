@@ -44,7 +44,7 @@ public class TestClass : NapCatScript.Core.PluginType
             DeepSeekAPI.AddGroupMesg(mesg); //加入组
 
         if (string.IsNullOrEmpty(BotId)) {
-            Log.Waring("配置文件中BotId未填, 无法使用DeepSeekAPI服务");
+            Log.InstanceLog.Waring("配置文件中BotId未填, 无法使用DeepSeekAPI服务");
             return;
         }
         if (mesgContent.Contains(StartString) || mesgContent.Contains(SkName)) {
@@ -52,7 +52,7 @@ public class TestClass : NapCatScript.Core.PluginType
                 DeepSeekAPI.SendAsync(mesg, httpUri, mesgContent, CTokrn);
             } catch (Exception E) {
                 Console.WriteLine($"DeepSeek错误: {E.Message} \r\n {E.StackTrace}");
-                Log.Erro(E.Message, E.StackTrace);
+                Log.InstanceLog.Erro(E.Message, E.StackTrace);
             }
             //continue;
             return;

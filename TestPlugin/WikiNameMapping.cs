@@ -66,7 +66,7 @@ public static class WikiNameMapping<T> where T : MapModel, new()
 
         } catch(Exception e) {
             SendTextAsync(mesg, httpURI, "错误！\r\n" + e.Message + "\r\n" + e.StackTrace, ct);
-            Log.Erro(e.Message, e.StackTrace);
+            Log.InstanceLog.Erro(e.Message, e.StackTrace);
         }
     }
 

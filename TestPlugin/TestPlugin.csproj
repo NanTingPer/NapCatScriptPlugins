@@ -7,12 +7,11 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\QQbotOrWebAPI\NapCatScript.Core\NapCatScript.Core.csproj" />
-    <ProjectReference Include="..\Start\NapCatScript.Start.csproj" />
-  </ItemGroup>
-
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <!--<Exec Command="call copy.bat"></Exec>-->
 </Target>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\QQbotOrWebAPI\Start\NapCatScript.Start.csproj" />
+  </ItemGroup>
 </Project>
