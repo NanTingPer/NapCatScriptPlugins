@@ -1,9 +1,12 @@
 ﻿#pragma warning disable CS8618
 using System.Text.Json.Serialization;
 
-namespace DiscordToQQ.JsonModel;
+namespace DiscordToQQ.JsonModel.Channel;
 
-public class DiscordMsg
+/// <summary>
+/// 频道对象
+/// </summary>
+public class DiscordChannel
 {
     /// <summary>
     /// 频道的 ID
@@ -256,5 +259,9 @@ public class DiscordMsg
     [JsonPropertyName("default_forum_layout")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? DefaultForumLayout { get; set; }
+
+    [JsonPropertyName("content")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Content { get; set; }
 }
 

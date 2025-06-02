@@ -1,6 +1,6 @@
-﻿namespace DiscordToQQ.JsonModel;
+﻿namespace DiscordToQQ.JsonModel.Channel;
 
-public enum MsgType
+public enum ChannelType
 {
     /// <summary>
     /// 服务器 普通文本
