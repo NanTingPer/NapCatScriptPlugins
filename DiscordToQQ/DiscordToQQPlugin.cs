@@ -117,6 +117,8 @@ public class DiscordToQQPlugin : PluginType
 
             if (!(newid > oldid))
                 continue;
+
+            Log.Info("Discord 有最新消息！/ Discord new message!");
             foreach (var groupId in GoToGroups) {
                 Send.SendMsg(groupId, MsgTo.group, new TextJson(sendMsg.Content));
             }

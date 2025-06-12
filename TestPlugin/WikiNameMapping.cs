@@ -20,7 +20,8 @@ public static class WikiNameMapping<T> where T : MapModel, new()
         try {
             t = await SQLService.Get<T>(content);
         } catch (Exception e){
-            Console.WriteLine("发生错误: \r\n" + e.Message + "\r\n" + e.StackTrace);
+            //序列中没有元素
+            //Console.WriteLine("发生错误: \r\n" + e.Message + "\r\n" + e.StackTrace);
         }
         if (t is null) return content;
         return t.oldString;
