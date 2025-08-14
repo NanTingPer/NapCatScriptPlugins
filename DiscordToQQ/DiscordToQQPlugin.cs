@@ -7,8 +7,6 @@ using NapCatScript.Core.Model;
 using NapCatScript.Core.MsgHandle;
 using NapCatScript.Core.Services;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace DiscordToQQ;
 

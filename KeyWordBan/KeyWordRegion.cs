@@ -27,7 +27,7 @@ public sealed class KeyWordRegister
             try {
                 await connection.InsertAsync(keyWordModel);
             } catch (Exception e){
-                Log.Erro(e.Message,e.StackTrace);
+                Log.InstanceLog.Erro(e.Message,e.StackTrace);
                 return false;
             }
             return true;
@@ -36,7 +36,7 @@ public sealed class KeyWordRegister
             try {
                 await connection.UpdateAsync(first);
             } catch (Exception e) {
-                Log.Erro(e.Message, e.StackTrace);
+                Log.InstanceLog.Erro(e.Message, e.StackTrace);
                 return false;
             }
             return true;
@@ -50,7 +50,7 @@ public sealed class KeyWordRegister
             await connection.DeleteAsync<KeyWordModel>(kwm.KeyWord);
             return true;
         }catch(Exception e) {
-            Log.Erro(e.Message, e.StackTrace);
+            Log.InstanceLog.Erro(e.Message, e.StackTrace);
             return false;
         }
     }

@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="call copy.bat"></Exec>
+   <!-- <Exec Command="call copy.bat"></Exec>-->
   </Target>
 
   <ItemGroup>

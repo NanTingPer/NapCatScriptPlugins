@@ -12,6 +12,7 @@ public class DeepSeekAPI
     private static string standardPath { get; } = Path.Combine(Environment.CurrentDirectory, "Standard.txt");
     public static async void SendAsync(MsgInfo mesg, string httpURI, string content, CancellationToken tk)
     {
+        return;
         if (!init) {
             await InitPrompt();
             init = true;
