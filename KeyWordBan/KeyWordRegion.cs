@@ -1,5 +1,4 @@
 ﻿using SQLite;
-using System.Threading.Tasks;
 
 namespace KeyWordBan;
 

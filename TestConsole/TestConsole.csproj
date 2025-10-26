@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DiscordToQQ\DiscordToQQ.csproj" />
+    <ProjectReference Include="..\TerrariaServerPlugin\TerrariaServerPlugin.csproj" />
   </ItemGroup>
 
 </Project>
