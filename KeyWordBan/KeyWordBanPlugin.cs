@@ -21,7 +21,9 @@ public class KeyWordBanPlugin : PluginType
         var msgText = msg.MessageContent.DelWhiteSpace();
         if (msgText.StartsWith("添加关键字")) {
             if (msgText.GetWordAndTime(out string word, out int time)) {
-                await register.Add(new KeyWordModel() { KeyWord = word, Time = time});
+                var kwm = new KeyWordModel() { KeyWord = word, Time = time };
+                await register.Add(kwm);
+                listWords.Add(kwm);
                 SendTextAsync(msg, httpUri, "添加: " + word + ", " + "时长: " + time + "秒", new CancellationToken());
                 return;
             }
