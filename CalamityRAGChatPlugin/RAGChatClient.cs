@@ -2,6 +2,7 @@
 using OpenAI.Chat;
 using Qdrant.Client;
 using System.ClientModel;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -63,8 +64,14 @@ internal class RAGChatClient
                     }
                 },
                 required = new[] { "content" }
-            }
-        )));
+            }))
+        );
+
+        var fn = nameof(TheContentIsIrrelevant);
+        var fd = "调用此方法拒绝回答";
+        var ft = ChatTool.CreateFunctionTool(functionName: fn, functionDescription: fd);
+
+        _chatCompletionOptions.Tools.Add(ft);
     }
 
     public async Task<string> VectorRetrievalCalamityModContent(string content)
@@ -81,25 +88,30 @@ internal class RAGChatClient
         return searchResultString.ToString();
     }
 
-    public async Task<string> ChatAsync(string inputContent)
+    public void TheContentIsIrrelevant()
+    {
+    }
+
+    public async Task<ChatRetResult> ChatAsync(string inputContent)
     {
         var userInput = ChatMessage.CreateUserMessage(inputContent);
         _content.Add(userInput);
         return await ChatWithToolLoopAsync(0);
     }
 
-    private async Task<string> ChatWithToolLoopAsync(int toolCallCount) // 递归
+    private async Task<ChatRetResult> ChatWithToolLoopAsync(int toolCallCount) // 递归
     {
         var chatValue = await _chatClient.CompleteChatAsync(_content, _chatCompletionOptions);
         var chatCompletion = chatValue.Value;
         switch (chatCompletion.FinishReason) {
             case ChatFinishReason.Stop: // 正常结束
                 _content.Add(ChatMessage.CreateAssistantMessage(chatCompletion));
-                return chatCompletion.Content[0].Text;
+                var result = chatCompletion.Content[0].Text;
+                return new ChatRetResult() { RetType = RetType.Normal, Content = result };
             case ChatFinishReason.Length: // 长度过长
-                return "上下文过长";
+                return new ChatRetResult() { RetType = RetType.Normal, Content = "上下文过长" }; ;
             case ChatFinishReason.ContentFilter: // 触发过滤规则
-                return "触发了模型过滤规则";
+                return new ChatRetResult() { RetType = RetType.Irrelevant, Content = "触发了模型过滤规则" }; ;
             case ChatFinishReason.ToolCalls: // 工具调用
                 _content.Add(ChatMessage.CreateAssistantMessage(chatCompletion));
                 toolCallCount++;
@@ -111,7 +123,7 @@ internal class RAGChatClient
                         continue;
                     }
                     switch (chatToolCall.FunctionName) {
-                        case nameof(VectorRetrievalCalamityModContent):
+                        case nameof(VectorRetrievalCalamityModContent): { 
                             var toolCallValue = "工具调用失败";
                             try {
                                 var content = chatToolCall.FunctionArguments.ToObjectFromJson<VectorRetrievalCalamityModContentArgument>()!.Content;
@@ -119,13 +131,18 @@ internal class RAGChatClient
                             } catch { }
                             _content.Add(ChatMessage.CreateToolMessage(chatToolCall.Id, toolCallValue));
                             break;
+                        }
+
+                        case nameof(TheContentIsIrrelevant): {
+                            return new ChatRetResult() { Content = "无关", RetType = RetType.Irrelevant };
+                        }
                     }
                 }
                 return await ChatWithToolLoopAsync(toolCallCount);
             case ChatFinishReason.FunctionCall: // 已弃用
-                return "返回了已弃用的FunctionCall";
+                return new ChatRetResult() { RetType = RetType.InternalError, Content = "返回了已弃用的FunctionCall" };
             default:
-                return "无效的响应";
+                return new ChatRetResult() { RetType = RetType.InternalError, Content = "无效的响应" };
         }
     }
 
@@ -133,5 +150,36 @@ internal class RAGChatClient
     {
         [JsonPropertyName("content")]
         public string Content { get; set; } = "";
+    }
+
+    /// <summary>
+    /// 对话返回的值
+    /// </summary>
+    public class ChatRetResult
+    {
+        /// <summary>
+        /// 返回类型
+        /// </summary>
+        public RetType RetType { get; set; }
+        /// <summary>
+        /// 回复结果
+        /// </summary>
+        public string Content { get; set; } = "";
+    }
+
+    public enum RetType
+    {
+        /// <summary>
+        /// 正常返回
+        /// </summary>
+        Normal,
+        /// <summary>
+        /// 内容不相关
+        /// </summary>
+        Irrelevant,
+        /// <summary>
+        /// 内部错误，使用了被放弃的工具调用类型
+        /// </summary>
+        InternalError
     }
 }

@@ -1,4 +1,5 @@
 ﻿using NapCatScript.Core;
+using NapCatScript.Core.JsonFormat.Msgs;
 using NapCatScript.Core.Model;
 using NapCatScript.Core.Services;
 using OpenAI;
@@ -97,7 +98,7 @@ public class CalamityRAGChatPlugin : PluginType
         }
 
         // 检查是否需要创建会话（仅当消息以 CRCStartString 开头时）
-        if (!messageContent.StartsWith($"[CQ:at,qq={BotId}]")) {
+        if (!messageContent.StartsWith(CRCConfig.StartString)) {
             return; // 不匹配启动字符串，不创建会话
         }
 
@@ -264,14 +265,26 @@ public class CalamityRAGChatPlugin : PluginType
                 userInput = userInput.Substring(CRCConfig.StartString.Length).Trim();
             }
 
+            if (string.IsNullOrEmpty(userInput)) {
+                return;
+            }
+
             // 使用 RAGChatClient 进行对话
             var response = await ragChatClient.ChatAsync(userInput);
 
-            // 回复用户
-            SendTextAsync(msg, httpUri, response, CTokrn);
+            switch (response.RetType) {
+                case RAGChatClient.RetType.Normal:
+                    SendTextAsync(msg, httpUri, response.Content, CTokrn);
+                    break;
+                case RAGChatClient.RetType.Irrelevant:
+                    Send.GroupBan(msg, 60);
+                    break;
+                case RAGChatClient.RetType.InternalError:
+                    break;
+            }
         } catch (Exception ex) {
             Log.InstanceLog.Erro($"RAG聊天出错: {ex.Message}", ex.StackTrace);
-            SendTextAsync(msg, httpUri, $"RAG聊天出错: {ex.Message}", CTokrn);
+            //SendTextAsync(msg, httpUri, $"RAG聊天出错: {ex.Message}", CTokrn);
         }
     }
 

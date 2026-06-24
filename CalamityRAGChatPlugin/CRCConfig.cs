@@ -142,7 +142,7 @@ public static class CRCConfig
         get
         {
             if (!_isInitialized) Init();
-            return _cachedStartString;
+            return $"[CQ:at,qq={_cachedStartString}]";
         }
     }
 
