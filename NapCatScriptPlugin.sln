@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrariaServerPlugin", "TerrariaServerPlugin\TerrariaServerPlugin.csproj", "{ED3D5FFD-514E-42F3-B0EB-9620EF034782}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalamityRAGChatPlugin", "CalamityRAGChatPlugin\CalamityRAGChatPlugin.csproj", "{FA99E95C-AD8D-42AA-9D24-E8D444F1E999}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
